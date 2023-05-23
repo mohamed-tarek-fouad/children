@@ -1,0 +1,283 @@
+{
+	"info": {
+		"_postman_id": "399fb2b9-a6b8-42c7-8725-c7a6caced02f",
+		"name": "children",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "18509837",
+		"_collection_link": "https://mdmedoo.postman.co/workspace/Personal-Workspace~cc1a4809-0f85-4d2d-a3ba-1058693e68d5/collection/18509837-399fb2b9-a6b8-42c7-8725-c7a6caced02f?action=share&creator=18509837&source=collection_link"
+	},
+	"item": [
+		{
+			"name": "auth",
+			"item": [
+				{
+					"name": "signup",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstname\":\"medo\",\r\n    \"lastname\":\"medo\",\r\n    \"email\":\"mdmedoo7133@gmail.com\",\r\n    \"password\":\"mM123Mm@\",\r\n    \"phoneNumber\":\"+201006388619\",\r\n    \"address\":{\r\n        \"city\":\"aa\",\r\n        \"area\":\"asd\"\r\n    },\r\n    \"birthDate\":\"2023-05-18T21:12:30.534Z\"\r\n\r\n\r\n\r\n\r\n    \r\n\r\n\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3001/api/auth/register",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"auth",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "signin",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\"email\":\"mdmedoo771@gmail.com\",\r\n\"password\":\"mM123Mm@\"\r\n\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3001/api/auth/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "signout",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0NmMyNDgyMWFjYzBmYjQ3NGYxOGI3NiIsImVtYWlsIjoibWRtZWRvbzc3MUBnbWFpbC5jb20iLCJyb2xlIjoidXNlciIsImlhdCI6MTY4NDg0MTYzNiwiZXhwIjoxNjg0ODQyNTM2fQ.N4ryUR7EJ3oOpUBPnqCKBGQtQiq3efzRTbJ_YY-rOIU",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3001/api/auth/logout",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"auth",
+								"logout"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "refreshToken",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0NmMyNDgyMWFjYzBmYjQ3NGYxOGI3NiIsImVtYWlsIjoibWRtZWRvbzc3MUBnbWFpbC5jb20iLCJyb2xlIjoidXNlciIsImlhdCI6MTY4NDg0MjI0NSwiZXhwIjoxNjg1NDQ3MDQ1fQ.m92aSQc7IgdGVJAjriGEEvPjxL2ZV7R6MhZSEOhT4Gk",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3001/api/auth/refresh",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"auth",
+								"refresh"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "forgetEmail",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\":\"mt1348@fayoum.edu.eg\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3001/api/auth/forgetPassword",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"auth",
+								"forgetPassword"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "New Request",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"password\":\"mM123Mm@\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3001/api/auth/resetPassword/646cbc15304c15fe850e8b4e/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im10MTM0OEBmYXlvdW0uZWR1LmVnIiwiaWQiOiI2NDZjYmMxNTMwNGMxNWZlODUwZThiNGUiLCJpYXQiOjE2ODQ4NDk0ODUsImV4cCI6MTY4NDg1MDM4NX0.jsOQUMkecVqyomXqCCBtAuv6wkUhMsWSUUEIJ1jRqYU",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"auth",
+								"resetPassword",
+								"646cbc15304c15fe850e8b4e",
+								"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im10MTM0OEBmYXlvdW0uZWR1LmVnIiwiaWQiOiI2NDZjYmMxNTMwNGMxNWZlODUwZThiNGUiLCJpYXQiOjE2ODQ4NDk0ODUsImV4cCI6MTY4NDg1MDM4NX0.jsOQUMkecVqyomXqCCBtAuv6wkUhMsWSUUEIJ1jRqYU"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "New Request",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0NmMyNDgyMWFjYzBmYjQ3NGYxOGI3NiIsImVtYWlsIjoibWRtZWRvbzc3MUBnbWFpbC5jb20iLCJyb2xlIjoidXNlciIsImlhdCI6MTY4NDg0OTc1MywiZXhwIjoxNjg0ODUwNjUzfQ.XpKicJTVYBqDshyOUZ9tuLx2qpFrRWg92SU_2QbEOcA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstname\":\"ahmed\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3001/api/auth",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"auth"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "users",
+			"item": [
+				{
+					"name": "user by id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0NmMyNDgyMWFjYzBmYjQ3NGYxOGI3NiIsImVtYWlsIjoibWRtZWRvbzc3MUBnbWFpbC5jb20iLCJyb2xlIjoidXNlciIsImlhdCI6MTY4NDg0OTc1MywiZXhwIjoxNjg0ODUwNjUzfQ.XpKicJTVYBqDshyOUZ9tuLx2qpFrRWg92SU_2QbEOcA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3001/api/users/646cbc15304c15fe850e8b4e",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"users",
+								"646cbc15304c15fe850e8b4e"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "New Request",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

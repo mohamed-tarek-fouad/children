@@ -15,9 +15,9 @@ import { ResetPasswordDto } from './dtos/resetPassword.dto';
 import { Patch } from '@nestjs/common';
 import { UpdateUserDto } from './dtos/updateUser.dto';
 import {
-  Public,
   GetCurrentUserId,
   GetCurrentUser,
+  Public,
 } from 'src/common/decorators';
 import { RtGuard } from 'src/common/guards';
 import { AuthDto } from './dtos/auth.dto';
@@ -53,9 +53,9 @@ export class AuthController {
   ) {
     return this.authService.resetPassword(resetPasswordDto, id, token);
   }
-  @Patch(':id')
-  updateUser(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    return this.authService.updateUser(id, updateUserDto);
+  @Patch()
+  updateUser(@Req() req, @Body() updateUserDto: UpdateUserDto) {
+    return this.authService.updateUser(req, updateUserDto);
   }
   @Public()
   @UseGuards(RtGuard)
@@ -66,10 +66,15 @@ export class AuthController {
   ) {
     return this.authService.refreshTokens(userId, refreshToken);
   }
-  @Public()
+
   @Get('google/redirect')
   @UseGuards(AuthGuard('google'))
   googleAuthRedirect(@Req() req) {
     return this.authService.googleLogin(req);
+  }
+  @Get('facebook/redirect')
+  @UseGuards(AuthGuard('facebook'))
+  facebookAuthRedirect(@Req() req) {
+    return this.authService.facebookLogin(req);
   }
 }

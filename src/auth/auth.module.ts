@@ -9,6 +9,7 @@ import { ScheduleModule } from '@nestjs/schedule';
 import { AtStrategy, RtStrategy } from './strategies';
 import { ConfigService } from '@nestjs/config';
 import { GoogleStrategy } from './strategies/google.strategy';
+import { FacebookStrategy } from './strategies/facebook.strategy';
 
 @Module({
   imports: [
@@ -29,6 +30,7 @@ import { GoogleStrategy } from './strategies/google.strategy';
     RtStrategy,
     ConfigService,
     GoogleStrategy,
+    FacebookStrategy,
   ],
   exports: [AuthService],
 })

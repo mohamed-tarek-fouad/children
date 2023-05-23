@@ -56,7 +56,7 @@ export class AuthService {
         },
       });
       if (userExist) {
-        throw new HttpException('user already exist', HttpStatus.BAD_REQUEST);
+        throw new HttpException('Email already exist', HttpStatus.BAD_REQUEST);
       }
       const saltOrRounds = 10;
       userDto.password = await bcrypt.hash(userDto.password, saltOrRounds);
@@ -66,16 +66,20 @@ export class AuthService {
       // await this.cacheManager.del('users');
       const tokens = await this.getTokens(user.id, user.email, user.role);
       await this.updateRtHash(user.id, tokens.refresh_token);
-      return { ...user, tokens, message: 'user has been created successfully' };
+      return {
+        ...user,
+        tokens,
+        message: 'Account has been created successfully',
+      };
     } catch (err) {
       return err;
     }
   }
-  async logout(userId: string) {
+  async logout(req) {
     try {
       await this.prisma.users.updateMany({
         where: {
-          id: userId,
+          id: req.user.id,
           hashedRt: {
             not: null,
           },
@@ -96,7 +100,7 @@ export class AuthService {
       },
     });
     if (!user || !user.hashedRt) throw new ForbiddenException('Access Denied');
-    const rtMatches = await bcrypt.compare(user.hashedRt, rt);
+    const rtMatches = await bcrypt.compare(rt, user.hashedRt);
     if (!rtMatches) throw new ForbiddenException('Access Denied');
 
     const tokens = await this.getTokens(user.id, user.email, user.role);
@@ -160,7 +164,7 @@ export class AuthService {
         },
       );
 
-      const url = `http://localhost:3001/auth/resetPassword/${validateUser.id}/${token}`;
+      const url = `http://localhost:3001/api/auth/resetPassword/${validateUser.id}/${token}`;
 
       await this.mailerService.sendMail({
         to: forgetPasswordDto.email,
@@ -196,7 +200,7 @@ export class AuthService {
         throw new HttpException("user doesn't exist", HttpStatus.BAD_REQUEST);
       }
       const secret = process.env.ACCESS_SECRET + validateUser.password;
-      const payload = this.jwtServise.verify(token, { secret });
+      const payload = await this.jwtServise.verify(token, { secret });
       if (payload.id !== validateUser.id) {
         throw new HttpException("user doesn't exist", HttpStatus.BAD_REQUEST);
       }
@@ -218,18 +222,18 @@ export class AuthService {
     }
   }
 
-  async updateUser(id: string, updateUserDto: UpdateUserDto) {
+  async updateUser(req, updateUserDto: UpdateUserDto) {
     try {
       const user = await this.prisma.users.findUnique({
         where: {
-          id,
+          id: req.user.id,
         },
       });
       if (!user) {
         throw new HttpException("user doesn't exist", HttpStatus.BAD_REQUEST);
       }
       const updatedUser = await this.prisma.users.update({
-        where: { id },
+        where: { id: req.user.id },
         data: updateUserDto,
       });
       // await this.cacheManager.del('users');
@@ -240,6 +244,118 @@ export class AuthService {
     }
   }
   async googleLogin(req) {
-    return req.user;
+    try {
+      const { name, emails, photos } = await req.user;
+      const email = emails[0].value;
+      const user = await this.prisma.users.findUnique({
+        where: {
+          email,
+        },
+      });
+      if (user) {
+        const tokens = await this.getTokens(user.id, user.email, user.role);
+        await this.updateRtHash(user.id, tokens.refresh_token);
+        return {
+          user,
+          tokens,
+        };
+      } else {
+        const newUserWitoutRt = await this.prisma.users.create({
+          data: {
+            email: emails[0].value,
+            firstname: name.givenName,
+            lastname: name.familyName,
+            picture: photos[0].value,
+            provider: 'google',
+          },
+        });
+        const jwtPayload = {
+          id: user.id,
+          email: email,
+          role: user.role,
+        };
+        const [at, rt] = await Promise.all([
+          this.jwtServise.signAsync(jwtPayload, {
+            secret: this.config.get<string>('AT_SECRET'),
+            expiresIn: '15m',
+          }),
+          this.jwtServise.signAsync(jwtPayload, {
+            secret: this.config.get<string>('RT_SECRET'),
+            expiresIn: '7d',
+          }),
+        ]);
+
+        const hashedRt = await bcrypt.hash(rt, 10);
+        const newUser = await this.prisma.users.update({
+          where: {
+            id: newUserWitoutRt.id,
+          },
+          data: {
+            hashedRt,
+          },
+        });
+        return { newUser, accessToken: at, refreshToken: rt };
+      }
+    } catch (err) {
+      return err;
+    }
+  }
+
+  async facebookLogin(req) {
+    try {
+      const { name, emails, photos } = await req.user;
+      const email = emails[0].value;
+      const user = await this.prisma.users.findUnique({
+        where: {
+          email,
+        },
+      });
+      if (user) {
+        const tokens = await this.getTokens(user.id, user.email, user.role);
+        await this.updateRtHash(user.id, tokens.refresh_token);
+        return {
+          user,
+          tokens,
+        };
+      } else {
+        const newUserWitoutRt = await this.prisma.users.create({
+          data: {
+            email: emails[0].value,
+            firstname: name.givenName,
+            lastname: name.familyName,
+            picture: photos[0].value,
+            provider: 'facebook',
+          },
+        });
+        const jwtPayload = {
+          id: user.id,
+          email: email,
+          role: user.role,
+        };
+        const [at, rt] = await Promise.all([
+          this.jwtServise.signAsync(jwtPayload, {
+            secret: this.config.get<string>('AT_SECRET'),
+            expiresIn: '15m',
+          }),
+          this.jwtServise.signAsync(jwtPayload, {
+            secret: this.config.get<string>('RT_SECRET'),
+            expiresIn: '7d',
+          }),
+        ]);
+
+        const hashedRt = await bcrypt.hash(rt, 10);
+        const newUser = await this.prisma.users.update({
+          where: {
+            id: newUserWitoutRt.id,
+          },
+          data: {
+            hashedRt,
+          },
+        });
+        return { newUser, accessToken: at, refreshToken: rt };
+      }
+    } catch (err) {
+      return err;
+    }
   }
 }

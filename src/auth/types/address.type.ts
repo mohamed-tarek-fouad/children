@@ -1,7 +1,5 @@
 /* eslint-disable prettier/prettier */
-export type Location = {
+export type Address = {
   city: string;
   area: string;
-  street: string;
-  building: string;
 };

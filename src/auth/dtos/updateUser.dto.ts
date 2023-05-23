@@ -12,6 +12,7 @@ import {
   PasswordValidation,
   PasswordValidationRequirement,
 } from 'class-validator-password-check';
+import { Address } from '../types';
 const passwordRequirement: PasswordValidationRequirement = {
   mustContainLowerLetter: true,
   mustContainNumber: true,
@@ -44,13 +45,14 @@ export class UpdateUserDto {
   password: string;
 
   @IsOptional()
-  address: string;
+  address: Address;
+
+  @IsOptional()
+  @IsNotEmpty()
+  birthDate: string;
 
   @IsNotEmpty()
   @IsOptional()
   @IsPhoneNumber()
   phoneNumber: string;
-
-  @IsOptional()
-  info: string;
 }

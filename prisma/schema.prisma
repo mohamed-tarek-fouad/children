@@ -11,36 +11,32 @@ datasource db {
 }
 
 model Users {
-  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
   firstname   String
   lastname    String
-  username    String
-  email       String   @unique
-  password    String
-  phoneNumber String
-  birthDate   DateTime
-  location    Location
+  email       String    @unique
+  password    String?
+  phoneNumber String?
+  birthDate   DateTime?
+  address     Address?
   hashedRt    String?
-  role        UserRole @default(user)
+  picture     String?
+  role        UserRole  @default(user)
+  provider    Provider?
 }
 
-model Google {
-  email     String @id @map("_id")
-  firstname String
-  lastname  String
-  username  String
-  picture   String
-  hashedRt  String
-}
-
-type Location {
-  city     String
-  area     String
-  street   String
-  building String
+type Address {
+  city String
+  area String
 }
 
 enum UserRole {
   user
   admin
+}
+
+enum Provider {
+  google
+  facebook
+  pinterest
 }

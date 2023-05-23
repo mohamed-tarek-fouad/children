@@ -19,7 +19,7 @@ const passwordRequirement: PasswordValidationRequirement = {
   mustContainSpecialCharacter: true,
   mustContainUpperLetter: true,
 };
-import { Location } from '../types';
+import { Address } from '../types';
 export class CreateUserDto {
   @MinLength(3)
   @IsNotEmpty()
@@ -28,10 +28,6 @@ export class CreateUserDto {
   @IsNotEmpty()
   @MinLength(3)
   lastname: string;
-
-  @IsNotEmpty()
-  @MinLength(3)
-  username: string;
 
   @IsNotEmpty()
   @IsEmail()
@@ -53,5 +49,5 @@ export class CreateUserDto {
   phoneNumber: string;
 
   @IsNotEmpty()
-  location: Location;
+  address: Address;
 }
