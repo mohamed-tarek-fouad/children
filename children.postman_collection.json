@@ -163,7 +163,7 @@
 					"response": []
 				},
 				{
-					"name": "New Request",
+					"name": "resetPassword",
 					"request": {
 						"method": "POST",
 						"header": [],
@@ -195,14 +195,14 @@
 					"response": []
 				},
 				{
-					"name": "New Request",
+					"name": "update user",
 					"request": {
 						"auth": {
 							"type": "bearer",
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0NmMyNDgyMWFjYzBmYjQ3NGYxOGI3NiIsImVtYWlsIjoibWRtZWRvbzc3MUBnbWFpbC5jb20iLCJyb2xlIjoidXNlciIsImlhdCI6MTY4NDg0OTc1MywiZXhwIjoxNjg0ODUwNjUzfQ.XpKicJTVYBqDshyOUZ9tuLx2qpFrRWg92SU_2QbEOcA",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0NmMyNDgyMWFjYzBmYjQ3NGYxOGI3NiIsImVtYWlsIjoibWRtZWRvbzc3MUBnbWFpbC5jb20iLCJyb2xlIjoidXNlciIsImlhdCI6MTY4NDk1Njg0MiwiZXhwIjoxNjg0OTU3NzQyfQ.KX3UY3q-i2XkgDOQFau99FcyPfJCfmp8RtyshFdSelg",
 									"type": "string"
 								}
 							]
@@ -264,6 +264,94 @@
 								"api",
 								"users",
 								"646cbc15304c15fe850e8b4e"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "all users",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "add baby",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0NmMyNDgyMWFjYzBmYjQ3NGYxOGI3NiIsImVtYWlsIjoibWRtZWRvbzc3MUBnbWFpbC5jb20iLCJyb2xlIjoidXNlciIsImlhdCI6MTY4NTA5Nzc0NSwiZXhwIjoxNjg1MDk4NjQ1fQ.MSKREcAG4kl0_rAeFlaWGdji1W4LwaMBnaunU98j7Hg",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"baby\":[{\r\n        \"babyName\":\"samy\",\r\n        \"gender\":\"boy\",\r\n        \"birthDate\":\"2023-05-24T19:55:09.723Z\"\r\n    }]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3001/api/users/addBaby",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"users",
+								"addBaby"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete baby",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0NmMyNDgyMWFjYzBmYjQ3NGYxOGI3NiIsImVtYWlsIjoibWRtZWRvbzc3MUBnbWFpbC5jb20iLCJyb2xlIjoidXNlciIsImlhdCI6MTY4NTEwMTg3MiwiZXhwIjoxNjg1MTAyNzcyfQ.a2yLSzUAExm0ROzoHgRUlsLcS2rFn0YAtG3OhNjXqZI",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"baby\":{\r\n        \"babyName\":\"samy\",\r\n        \"gender\":\"boy\",\r\n        \"birthDate\":\"2023-05-24T19:55:09.723Z\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3001/api/users/deleteBaby",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"users",
+								"deleteBaby"
 							]
 						}
 					},
