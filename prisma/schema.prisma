@@ -12,8 +12,8 @@ datasource db {
 
 model Users {
   id          String    @id @default(auto()) @map("_id") @db.ObjectId
-  firstname   String
-  lastname    String
+  firstname   String?
+  lastname    String?
   email       String    @unique
   password    String?
   phoneNumber String?
@@ -23,6 +23,7 @@ model Users {
   picture     String?
   role        UserRole  @default(user)
   provider    Provider?
+  baby        Baby[]
 }
 
 type Address {
@@ -38,5 +39,16 @@ enum UserRole {
 enum Provider {
   google
   facebook
-  pinterest
+}
+
+type Baby {
+  babyName  String
+  gender    Gender
+  birthDate DateTime
+  Weight    Int?
+}
+
+enum Gender {
+  boy
+  girl
 }
