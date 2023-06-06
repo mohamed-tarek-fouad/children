@@ -18,7 +18,7 @@ import {
   GetCurrentUserId,
   GetCurrentUser,
   Public,
-} from 'src/common/decorators';
+} from 'src/common/decorators/index';
 import { RtGuard } from 'src/common/guards';
 import { AuthDto } from './dtos/auth.dto';
 import { AuthGuard } from '@nestjs/passport';
