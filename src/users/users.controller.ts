@@ -6,6 +6,7 @@ import {
   Patch,
   Req,
   Delete,
+  Post,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { BabyDto } from './dtos/babydto';
@@ -22,7 +23,7 @@ export class UsersController {
   userById(@Param('id') id: string) {
     return this.usersService.userById(id);
   }
-  @Patch('addBaby')
+  @Post('addBaby')
   addBaby(@Body() babyDto: BabyDto, @Req() req) {
     return this.usersService.addBaby(babyDto, req);
   }

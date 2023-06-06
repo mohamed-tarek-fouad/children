@@ -1,7 +1,7 @@
 export type Baby = {
   babyName: string;
   gender: Gender;
-  birthDate: Date;
+  birthDate: string;
   weight?: number;
 };
 enum Gender {
