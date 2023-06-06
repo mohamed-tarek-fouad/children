@@ -37,6 +37,7 @@
     "class-validator": "^0.14.0",
     "class-validator-password-check": "^1.0.8",
     "dotenv": "^16.0.3",
+    "mongosh": "^1.9.1",
     "nodemailer": "^6.9.2",
     "passport": "^0.6.0",
     "passport-facebook": "^3.0.0",
