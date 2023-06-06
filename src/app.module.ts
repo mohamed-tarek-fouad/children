@@ -28,10 +28,10 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
   ],
   controllers: [],
   providers: [
-    {
-      provide: APP_GUARD,
-      useClass: AtGuard,
-    },
+    // {
+    //   provide: APP_GUARD,
+    //   useClass: AtGuard,
+    // },
   ],
 })
 export class AppModule {}

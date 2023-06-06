@@ -6,6 +6,7 @@ import {
   MaxLength,
   MinLength,
   Validate,
+  maxLength,
 } from 'class-validator';
 import {
   PasswordValidation,
@@ -28,4 +29,10 @@ export class CreateUserDto {
   @MaxLength(20)
   //@Validate(PasswordValidation, [passwordRequirement])
   password: string;
+  @IsNotEmpty()
+  @MaxLength(20)
+  firstname: string;
+  @IsNotEmpty()
+  @MaxLength(20)
+  lastname: string;
 }
