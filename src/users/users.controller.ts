@@ -10,7 +10,7 @@ import {
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { BabyDto } from './dtos/babydto';
-import { DeleteBabyDto } from './dtos/deleteUpdateBaby.dto';
+import { DeleteBabyDto, DeleteBabyListDto } from './dtos/deleteUpdateBaby.dto';
 
 @Controller('users')
 export class UsersController {
@@ -32,7 +32,7 @@ export class UsersController {
     return this.usersService.deleteBaby(babyDto, req);
   }
   @Patch('updateBaby')
-  updateBaby(@Body() babyDto: BabyDto, @Req() req) {
+  updateBaby(@Body() babyDto: DeleteBabyListDto, @Req() req) {
     return this.usersService.updateBaby(babyDto, req);
   }
 }

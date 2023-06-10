@@ -28,3 +28,7 @@ export class DeleteBabyDto {
   @Max(10)
   weight: number;
 }
+export class DeleteBabyListDto {
+  @IsNotEmpty()
+  baby: DeleteBabyDto[];
+}

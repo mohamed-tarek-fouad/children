@@ -7,7 +7,7 @@ import {
   // CACHE_MANAGER,
 } from '@nestjs/common';
 import { BabyDto } from './dtos/babydto';
-import { DeleteBabyDto } from './dtos/deleteUpdateBaby.dto';
+import { DeleteBabyDto, DeleteBabyListDto } from './dtos/deleteUpdateBaby.dto';
 // import { Cache } from 'cache-manager';
 @Injectable()
 export class UsersService {
@@ -80,9 +80,9 @@ export class UsersService {
       });
       const newArray = userById.baby.filter((b) => {
         if (
-          b.babyName !== baby.babyName &&
-          b.birthDate !== baby.birthDate &&
-          b.gender != (baby.gender as any)
+          b.babyName !== baby.babyName ||
+          b.birthDate !== baby.birthDate ||
+          b.gender != baby.gender
         ) {
           return b;
         }
@@ -100,14 +100,14 @@ export class UsersService {
       return err;
     }
   }
-  async updateBaby(baby: BabyDto, req) {
+  async updateBaby(baby: DeleteBabyListDto, req) {
     try {
       const user = await this.prisma.users.update({
         where: {
           id: req.user.id,
         },
         data: {
-          baby: baby as any,
+          baby: baby.baby,
         },
       });
       return { user, message: 'updated babies successfully' };
