@@ -80,9 +80,9 @@ export class UsersService {
       });
       const newArray = userById.baby.filter((b) => {
         if (
-          b.babyName !== baby.baby.babyName &&
-          b.birthDate !== baby.baby.birthDate &&
-          b.gender != (baby.baby.gender as any)
+          b.babyName !== baby.babyName &&
+          b.birthDate !== baby.birthDate &&
+          b.gender != (baby.gender as any)
         ) {
           return b;
         }
