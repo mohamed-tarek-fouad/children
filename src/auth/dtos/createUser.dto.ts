@@ -3,6 +3,7 @@ import {
   IsEmail,
   IsNotEmpty,
   IsString,
+  Matches,
   MaxLength,
   MinLength,
   Validate,
@@ -21,6 +22,7 @@ const passwordRequirement: PasswordValidationRequirement = {
 export class CreateUserDto {
   @IsNotEmpty()
   @IsEmail()
+  @MaxLength(255)
   email: string;
 
   @IsNotEmpty()
@@ -30,9 +32,13 @@ export class CreateUserDto {
   //@Validate(PasswordValidation, [passwordRequirement])
   password: string;
   @IsNotEmpty()
-  @MaxLength(20)
+  @MaxLength(30)
+  @MinLength(3)
+  @Matches(/^[a-zA-Z][a-zA-Z0-9]*$/)
   firstname: string;
   @IsNotEmpty()
-  @MaxLength(20)
+  @MinLength(3)
+  @MaxLength(30)
+  @Matches(/^[a-zA-Z][a-zA-Z0-9]*$/)
   lastname: string;
 }

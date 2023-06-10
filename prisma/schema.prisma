@@ -45,7 +45,7 @@ type Baby {
   babyName  String
   gender    Gender
   birthDate String
-  Weight    Float?
+  weight    Float?
 }
 
 enum Gender {

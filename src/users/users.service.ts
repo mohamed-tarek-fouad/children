@@ -63,7 +63,7 @@ export class UsersService {
         where: { id: req.user.id },
         data: {
           baby: {
-            push: baby.baby as any,
+            push: baby,
           },
         },
       });
@@ -107,7 +107,7 @@ export class UsersService {
           id: req.user.id,
         },
         data: {
-          baby: baby.baby as any,
+          baby: baby as any,
         },
       });
       return { user, message: 'updated babies successfully' };
