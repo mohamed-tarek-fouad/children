@@ -35,7 +35,11 @@ export class AuthService {
         },
       });
 
-      if (!user) throw new ForbiddenException('Access Denied');
+      if (!user)
+        throw new HttpException(
+          'wrong email or password',
+          HttpStatus.BAD_REQUEST,
+        );
 
       const passwordMatches = await bcrypt.compare(dto.password, user.password);
       if (!passwordMatches) throw new ForbiddenException('Access Denied');
