@@ -15,104 +15,84 @@ export class UsersService {
     private prisma: PrismaService, // @Inject(CACHE_MANAGER) private cacheManager: Cache,
   ) {}
   async allUsers() {
-    try {
-      // const isCached = await this.cacheManager.get('users');
-      // if (isCached) {
-      //   return { isCached, message: 'fetched all users successfully' };
-      // }
-      const user = await this.prisma.users.findMany({});
-      if (user.length === 0) {
-        throw new HttpException("user does'nt exist", HttpStatus.BAD_REQUEST);
-      }
-      // await this.cacheManager.set('users', user);
-      return { ...user, message: 'fetched all users successfully' };
-    } catch (err) {
-      return err;
+    // const isCached = await this.cacheManager.get('users');
+    // if (isCached) {
+    //   return { isCached, message: 'fetched all users successfully' };
+    // }
+    const user = await this.prisma.users.findMany({});
+    if (user.length === 0) {
+      throw new HttpException('there is no users', HttpStatus.BAD_REQUEST);
     }
+    // await this.cacheManager.set('users', user);
+    return { ...user, message: 'fetched all users successfully' };
   }
 
   async userById(id: string) {
-    try {
-      // const isCached = await this.cacheManager.get(`user${id}`);
-      // if (isCached) {
-      //   return { isCached, message: 'fetched all users successfully' };
-      // }
-      const user = await this.prisma.users.findUnique({
-        where: {
-          id,
-        },
-      });
-      if (!user) {
-        throw new HttpException(
-          "this user does'nt exist",
-          HttpStatus.BAD_REQUEST,
-        );
-      }
-      delete user.password;
-      // await this.cacheManager.set(`user${id}`, {
-      //   ...user,
-      // });
-      return { ...user, message: 'user fetched successfully' };
-    } catch (err) {
-      return err;
+    // const isCached = await this.cacheManager.get(`user${id}`);
+    // if (isCached) {
+    //   return { isCached, message: 'fetched all users successfully' };
+    // }
+    const user = await this.prisma.users.findUnique({
+      where: {
+        id,
+      },
+    });
+    if (!user) {
+      throw new HttpException(
+        "this user does'nt exist",
+        HttpStatus.BAD_REQUEST,
+      );
     }
+    delete user.password;
+    // await this.cacheManager.set(`user${id}`, {
+    //   ...user,
+    // });
+    return { ...user, message: 'user fetched successfully' };
   }
   async addBaby(baby: BabyDto, req) {
-    try {
-      const user = await this.prisma.users.update({
-        where: { id: req.user.id },
-        data: {
-          baby: {
-            push: baby,
-          },
+    const user = await this.prisma.users.update({
+      where: { id: req.user.id },
+      data: {
+        baby: {
+          push: baby,
         },
-      });
-      return { user, message: 'updated babies successfully' };
-    } catch (err) {
-      return err;
-    }
+      },
+    });
+    return { user, message: 'updated babies successfully' };
   }
   async deleteBaby(baby: DeleteBabyDto, req) {
-    try {
-      const userById = await this.prisma.users.findUnique({
-        where: { id: req.user.id },
-        select: { baby: true },
-      });
-      const newArray = userById.baby.filter((b) => {
-        if (
-          b.babyName !== baby.babyName ||
-          b.birthDate !== baby.birthDate ||
-          b.gender != baby.gender
-        ) {
-          return b;
-        }
-      });
-      const user = await this.prisma.users.update({
-        where: {
-          id: req.user.id,
-        },
-        data: {
-          baby: newArray,
-        },
-      });
-      return { user, message: 'deleted baby successfully' };
-    } catch (err) {
-      return err;
-    }
+    const userById = await this.prisma.users.findUnique({
+      where: { id: req.user.id },
+      select: { baby: true },
+    });
+    const newArray = userById.baby.filter((b) => {
+      if (
+        b.babyName !== baby.babyName ||
+        b.birthDate !== baby.birthDate ||
+        b.gender != baby.gender
+      ) {
+        return b;
+      }
+    });
+    const user = await this.prisma.users.update({
+      where: {
+        id: req.user.id,
+      },
+      data: {
+        baby: newArray,
+      },
+    });
+    return { user, message: 'deleted baby successfully' };
   }
   async updateBaby(baby: DeleteBabyListDto, req) {
-    try {
-      const user = await this.prisma.users.update({
-        where: {
-          id: req.user.id,
-        },
-        data: {
-          baby: baby.baby,
-        },
-      });
-      return { user, message: 'updated babies successfully' };
-    } catch (err) {
-      return err;
-    }
+    const user = await this.prisma.users.update({
+      where: {
+        id: req.user.id,
+      },
+      data: {
+        baby: baby.baby,
+      },
+    });
+    return { user, message: 'updated babies successfully' };
   }
 }

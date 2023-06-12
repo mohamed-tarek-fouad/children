@@ -1,5 +1,4 @@
 import {
-  IsEmail,
   IsNotEmpty,
   IsOptional,
   IsPhoneNumber,
@@ -34,11 +33,6 @@ export class UpdateUserDto {
 
   @IsNotEmpty()
   @IsOptional()
-  @IsEmail()
-  email: string;
-
-  @IsNotEmpty()
-  @IsOptional()
   @IsString()
   @MinLength(6)
   @MaxLength(20)
@@ -47,7 +41,7 @@ export class UpdateUserDto {
 
   @IsOptional()
   address: Address;
-  @Matches(/^((0?[1-9])|(1[0-2]))\/((0?[1-9])|([1-2][0-9])|(3[0-1]))\/\d{4}$/)
+  @Matches(/^\d{4}-(0?[1-9]|1[0-2])-(0?[1-9]|[1-2][0-9]|3[0-1])$/)
   @IsOptional()
   @IsNotEmpty()
   birthDate: string;

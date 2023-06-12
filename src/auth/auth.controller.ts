@@ -7,6 +7,7 @@ import {
   Body,
   Param,
   Get,
+  HttpCode,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { CreateUserDto } from './dtos/createUser.dto';
