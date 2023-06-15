@@ -1,4 +1,5 @@
 import {
+  IsEmail,
   IsNotEmpty,
   IsString,
   MaxLength,
@@ -22,4 +23,6 @@ export class ResetPasswordDto {
   @MaxLength(20)
   // @Validate(PasswordValidation, [passwordRequirement])
   password: string;
+  @IsEmail()
+  email: string;
 }

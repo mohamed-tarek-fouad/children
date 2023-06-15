@@ -45,18 +45,20 @@ export class AuthController {
     return this.authService.forgetPassword(forgetPasswordDto);
   }
   @Public()
-  @Post('verifyResetMessage/:id/:token')
-  verifyResetMessage(@Param('token') token: string, @Param('id') id: string) {
-    return this.authService.verifyResetMessage(token, id);
+  @Post('verifyResetMessage/:token')
+  verifyResetMessage(
+    @Param('token') token: string,
+    @Body() forgetPasswordDto: ForgetPasswordDto,
+  ) {
+    return this.authService.verifyResetMessage(token, forgetPasswordDto);
   }
   @Public()
-  @Post('resetPassword/:id/:token')
+  @Post('resetPassword/:token')
   resetPassword(
     @Body() resetPasswordDto: ResetPasswordDto,
-    @Param('id') id: string,
     @Param('token') token: string,
   ) {
-    return this.authService.resetPassword(resetPasswordDto, id, token);
+    return this.authService.resetPassword(resetPasswordDto, token);
   }
   @Patch()
   updateUser(@Req() req, @Body() updateUserDto: UpdateUserDto) {
