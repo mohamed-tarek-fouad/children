@@ -178,10 +178,10 @@ export class AuthService {
     });
     return { message: 'email sent successfully' };
   }
-  async verifyResetMessage(token: string, id: string) {
+  async verifyResetMessage(token: string, email: string) {
     const validateUser = await this.prisma.users.findUnique({
       where: {
-        id,
+        email,
       },
     });
     if (!validateUser) {
@@ -199,12 +199,12 @@ export class AuthService {
   }
   async resetPassword(
     resetPasswordDto: ResetPasswordDto,
-    id: string,
+    email: string,
     token: string,
   ) {
     const validateUser = await this.prisma.users.findUnique({
       where: {
-        id,
+        email,
       },
     });
     if (!validateUser) {
@@ -224,7 +224,7 @@ export class AuthService {
       saltOrRounds,
     );
     const user = await this.prisma.users.update({
-      where: { id },
+      where: { email },
       data: {
         password: resetPasswordDto.password,
         resetPasswordDigits: null,
