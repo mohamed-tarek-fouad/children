@@ -2,13 +2,12 @@ import {
   IsEnum,
   IsNotEmpty,
   IsOptional,
-  IsPhoneNumber,
   Matches,
   Max,
   MaxLength,
+  Min,
   MinLength,
 } from 'class-validator';
-import { Baby } from '../types/baby.type';
 import { Gender } from '@prisma/client';
 
 export class BabyDto {
@@ -27,6 +26,11 @@ export class BabyDto {
   babyName: string;
 
   @IsNotEmpty()
+  @IsOptional()
   @Max(10)
+  @Min(0)
   weight: number;
+  @IsNotEmpty()
+  @IsOptional()
+  image: string;
 }

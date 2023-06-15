@@ -144,18 +144,24 @@ export class AuthService {
     if (!validateUser) {
       throw new HttpException("email doesn't exist", HttpStatus.BAD_REQUEST);
     }
+    const fourDigits = Math.floor(Math.random() * 9000) + 1000;
 
     const secret = process.env.ACCESS_SECRET + validateUser.password;
     const token = this.jwtServise.sign(
-      { email: forgetPasswordDto.email, id: validateUser.id },
+      { code: fourDigits },
       {
         secret,
         expiresIn: 60 * 15,
       },
     );
-
-    const url = `http://localhost:3001/api/auth/resetPassword/${validateUser.id}/${token}`;
-
+    await this.prisma.users.update({
+      where: {
+        email: forgetPasswordDto.email,
+      },
+      data: {
+        resetPasswordDigits: token,
+      },
+    });
     await this.mailerService.sendMail({
       to: forgetPasswordDto.email,
       from: process.env.EMAIL_USER,
@@ -165,12 +171,31 @@ export class AuthService {
       context: {
         // ✏️ filling curly brackets with content
         name: validateUser.firstname,
-        url,
+        fourDigits,
       },
 
-      text: url,
+      text: `${fourDigits}`,
     });
     return { message: 'email sent successfully' };
+  }
+  async verifyResetMessage(token: string, id: string) {
+    const validateUser = await this.prisma.users.findUnique({
+      where: {
+        id,
+      },
+    });
+    if (!validateUser) {
+      throw new HttpException("user doesn't exist", HttpStatus.BAD_REQUEST);
+    }
+    const secret = process.env.ACCESS_SECRET + validateUser.password;
+    const payload = await this.jwtServise.verify(
+      validateUser.resetPasswordDigits,
+      { secret },
+    );
+    if (payload.code != token) {
+      throw new HttpException("user doesn't exist", HttpStatus.BAD_REQUEST);
+    }
+    return { message: 'valid numbers reset password now' };
   }
   async resetPassword(
     resetPasswordDto: ResetPasswordDto,
@@ -186,8 +211,11 @@ export class AuthService {
       throw new HttpException("user doesn't exist", HttpStatus.BAD_REQUEST);
     }
     const secret = process.env.ACCESS_SECRET + validateUser.password;
-    const payload = await this.jwtServise.verify(token, { secret });
-    if (payload.id !== validateUser.id) {
+    const payload = await this.jwtServise.verify(
+      validateUser.resetPasswordDigits,
+      { secret },
+    );
+    if (payload.code != token) {
       throw new HttpException("user doesn't exist", HttpStatus.BAD_REQUEST);
     }
     const saltOrRounds = 10;
@@ -199,6 +227,7 @@ export class AuthService {
       where: { id },
       data: {
         password: resetPasswordDto.password,
+        resetPasswordDigits: null,
       },
     });
     delete user.password;

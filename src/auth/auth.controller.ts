@@ -7,7 +7,6 @@ import {
   Body,
   Param,
   Get,
-  HttpCode,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { CreateUserDto } from './dtos/createUser.dto';
@@ -44,6 +43,11 @@ export class AuthController {
   @Post('forgetPassword')
   forgetPassword(@Body() forgetPasswordDto: ForgetPasswordDto) {
     return this.authService.forgetPassword(forgetPasswordDto);
+  }
+  @Public()
+  @Post('verifyResetMessage/:id/:token')
+  verifyResetMessage(@Param('token') token: string, @Param('id') id: string) {
+    return this.authService.verifyResetMessage(token, id);
   }
   @Public()
   @Post('resetPassword/:id/:token')

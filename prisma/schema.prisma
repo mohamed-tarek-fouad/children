@@ -11,19 +11,20 @@ datasource db {
 }
 
 model Users {
-  id          String    @id @default(auto()) @map("_id") @db.ObjectId
-  firstname   String?
-  lastname    String?
-  email       String    @unique
-  password    String?
-  phoneNumber String?
-  birthDate   String?
-  address     Address?
-  hashedRt    String?
-  picture     String?
-  role        UserRole  @default(user)
-  provider    Provider?
-  baby        Baby[]
+  id                  String    @id @default(auto()) @map("_id") @db.ObjectId
+  firstname           String?
+  lastname            String?
+  email               String    @unique
+  password            String?
+  phoneNumber         String?
+  birthDate           String?
+  address             Address?
+  hashedRt            String?
+  picture             String?
+  role                UserRole  @default(user)
+  provider            Provider?
+  baby                Baby[]
+  resetPasswordDigits String?
 }
 
 type Address {
@@ -46,6 +47,7 @@ type Baby {
   gender    Gender
   birthDate String
   weight    Float?
+  image     String?
 }
 
 enum Gender {

@@ -6,19 +6,19 @@ import {
   Matches,
   MaxLength,
   MinLength,
-  Validate,
-  maxLength,
+  // Validate,
+  // maxLength,
 } from 'class-validator';
-import {
-  PasswordValidation,
-  PasswordValidationRequirement,
-} from 'class-validator-password-check';
-const passwordRequirement: PasswordValidationRequirement = {
-  mustContainLowerLetter: true,
-  mustContainNumber: true,
-  mustContainSpecialCharacter: true,
-  mustContainUpperLetter: true,
-};
+// import {
+//   //PasswordValidation,
+//   PasswordValidationRequirement,
+// } from 'class-validator-password-check';
+// const passwordRequirement: PasswordValidationRequirement = {
+//   mustContainLowerLetter: true,
+//   mustContainNumber: true,
+//   mustContainSpecialCharacter: true,
+//   mustContainUpperLetter: true,
+// };
 export class CreateUserDto {
   @IsNotEmpty()
   @IsEmail()
