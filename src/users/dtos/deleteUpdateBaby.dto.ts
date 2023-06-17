@@ -30,9 +30,6 @@ export class UpdateBabyDto {
   @IsNotEmpty()
   @Max(10)
   weight: number;
-  @IsNotEmpty()
-  @IsOptional()
-  image: string;
 }
 export class UpdateBabyListDto {
   @IsNotEmpty()

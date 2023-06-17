@@ -30,7 +30,4 @@ export class BabyDto {
   @Max(10)
   @Min(0)
   weight: number;
-  @IsNotEmpty()
-  @IsOptional()
-  image: string;
 }

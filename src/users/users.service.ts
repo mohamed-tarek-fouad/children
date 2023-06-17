@@ -6,10 +6,9 @@ import {
   // Inject,
   // CACHE_MANAGER,
 } from '@nestjs/common';
-import * as fs from 'fs';
 import { v2 as cloudinary } from 'cloudinary';
 import { BabyDto } from './dtos/babydto';
-import { UpdateBabyDto, UpdateBabyListDto } from './dtos/deleteUpdateBaby.dto';
+import { UpdateBabyListDto } from './dtos/deleteUpdateBaby.dto';
 // import { Cache } from 'cache-manager';
 @Injectable()
 export class UsersService {
@@ -57,7 +56,22 @@ export class UsersService {
     // });
     return { ...user, message: 'user fetched successfully' };
   }
-  async addBaby(baby: BabyDto, req) {
+  async uploadImage(buffer: Buffer): Promise<string> {
+    return new Promise((resolve, reject) => {
+      cloudinary.uploader
+        .upload_stream({ resource_type: 'image' }, (error, result) => {
+          if (error) {
+            reject(error);
+          } else {
+            resolve(result.secure_url);
+          }
+        })
+        .end(buffer);
+    });
+  }
+  async addBaby(baby: BabyDto, req, image) {
+    const url = await this.uploadImage(image[0].buffer);
+
     const babies = await this.prisma.users.findUnique({
       where: {
         id: req.user.id,
@@ -73,14 +87,12 @@ export class UsersService {
         'this baby Name does exist',
         HttpStatus.BAD_REQUEST,
       );
-
-    // const result = await cloudinary.uploader.upload(image[0].path);
-    // baby.image = result.url;
+    const babywithImage = { ...baby, image: url };
     const user = await this.prisma.users.update({
       where: { id: req.user.id },
       data: {
         baby: {
-          push: baby,
+          push: babywithImage,
         },
       },
     });
