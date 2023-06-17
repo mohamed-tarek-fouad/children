@@ -28,7 +28,8 @@ export class UpdateBabyDto {
   babyName: string;
 
   @IsNotEmpty()
-  @Max(10)
+  @IsOptional()
+  @MaxLength(2)
   weight: number;
 }
 export class UpdateBabyListDto {

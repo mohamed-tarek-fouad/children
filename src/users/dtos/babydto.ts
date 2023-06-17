@@ -3,9 +3,7 @@ import {
   IsNotEmpty,
   IsOptional,
   Matches,
-  Max,
   MaxLength,
-  Min,
   MinLength,
 } from 'class-validator';
 import { Gender } from '@prisma/client';
@@ -27,7 +25,6 @@ export class BabyDto {
 
   @IsNotEmpty()
   @IsOptional()
-  @Max(10)
-  @Min(0)
+  @MaxLength(2)
   weight: number;
 }

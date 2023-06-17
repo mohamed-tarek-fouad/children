@@ -70,6 +70,27 @@ export class UsersService {
     });
   }
   async addBaby(baby: BabyDto, req, image) {
+    const today = new Date();
+
+    // Parse the birth date string and create a Date object
+    const birthdate = new Date(baby.birthDate);
+
+    // Calculate the person's age in years
+    let age = today.getFullYear() - birthdate.getFullYear();
+    if (
+      birthdate.getMonth() > today.getMonth() ||
+      (birthdate.getMonth() === today.getMonth() &&
+        birthdate.getDate() > today.getDate())
+    ) {
+      age--;
+    }
+    if (age >= 5) {
+      throw new HttpException(
+        'max age supported less than 5 years',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+
     const url = await this.uploadImage(image[0].buffer);
 
     const babies = await this.prisma.users.findUnique({
@@ -87,7 +108,11 @@ export class UsersService {
         'this baby Name does exist',
         HttpStatus.BAD_REQUEST,
       );
-    const babywithImage = { ...baby, image: url };
+    const babywithImage = {
+      ...baby,
+      image: url,
+      weight: Number(baby.weight),
+    };
     const user = await this.prisma.users.update({
       where: { id: req.user.id },
       data: {
