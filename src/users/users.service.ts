@@ -91,7 +91,7 @@ export class UsersService {
       );
     }
 
-    const url = await this.uploadImage(image[0].buffer);
+    const url = image ? await this.uploadImage(image[0].buffer) : null;
 
     const babies = await this.prisma.users.findUnique({
       where: {

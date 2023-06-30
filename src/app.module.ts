@@ -1,3 +1,4 @@
+import { NotificationModule } from './notification/notification.module';
 import { AuthModule } from './auth/auth.module';
 import { Module } from '@nestjs/common';
 import { APP_GUARD } from '@nestjs/core';
@@ -8,8 +9,10 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 
 @Module({
   imports: [
+    NotificationModule,
     AuthModule,
     UsersModule,
+    NotificationModule,
     MailerModule.forRootAsync({
       imports: [ConfigModule],
       useFactory: async (config: ConfigService) => ({

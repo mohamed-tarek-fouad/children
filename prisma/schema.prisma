@@ -11,20 +11,40 @@ datasource db {
 }
 
 model Users {
-  id                  String    @id @default(auto()) @map("_id") @db.ObjectId
+  id                  String              @id @default(auto()) @map("_id") @db.ObjectId
   firstname           String?
   lastname            String?
-  email               String    @unique
+  email               String              @unique
   password            String?
   phoneNumber         String?
   birthDate           String?
   address             Address?
   hashedRt            String?
   picture             String?
-  role                UserRole  @default(user)
+  role                UserRole            @default(user)
   provider            Provider?
   baby                Baby[]
   resetPasswordDigits String?
+  NotificationToken   NotificationToken[]
+}
+
+model Notification {
+  id                  String             @id @default(auto()) @map("_id") @db.ObjectId
+  title               String
+  body                String
+  status              NotificationStatus @default(active)
+  notificationToken   NotificationToken  @relation(fields: [notificationTokenId], references: [id])
+  notificationTokenId String             @db.ObjectId
+}
+
+model NotificationToken {
+  id                String             @id @default(auto()) @map("_id") @db.ObjectId
+  user              Users              @relation(fields: [usersId], references: [id])
+  usersId           String             @db.ObjectId
+  deviceType        String
+  notificationToken String
+  status            NotificationStatus @default(active)
+  Notification      Notification[]
 }
 
 type Address {
@@ -53,4 +73,9 @@ type Baby {
 enum Gender {
   boy
   girl
+}
+
+enum NotificationStatus {
+  active
+  inactive
 }

@@ -42,7 +42,6 @@ export class UsersController {
     @Req() req,
     @UploadedFiles() images: Express.Multer.File,
   ) {
-    console.log(req.files);
     return this.usersService.addBaby(babyDto, req, images);
   }
   @Delete('deleteBaby')
